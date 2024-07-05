@@ -1,0 +1,728 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+    xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+    xmlns:tns="http://bussinessfacade.fawryswitch.ebpp.fawryis.com/"
+    xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+    xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+    xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+    xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="EBPPSwitchBeanServiceSoap"
+    targetNamespace="http://bussinessfacade.fawryswitch.ebpp.fawryis.com/">
+    <wsp:Policy wsu:Id="BasicHttpBinding_IEBPPSwitchBeanServiceSoap_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <sp:HttpsToken RequireClientCertificate="false" />
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256 />
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Strict />
+                            </wsp:Policy>
+                        </sp:Layout>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsdl:types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+            targetNamespace="http://bussinessfacade.fawryswitch.ebpp.fawryis.com/">
+            <xs:import namespace="http://www.fawry-eg.com/ebpp/IFXMessages/" />
+            <xs:element name="processRequest">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element xmlns:q1="http://www.fawry-eg.com/ebpp/IFXMessages/"
+                            minOccurs="0" maxOccurs="1" form="unqualified" name="arg0"
+                            type="q1:FAWRYType" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="processRequestResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element xmlns:q2="http://www.fawry-eg.com/ebpp/IFXMessages/"
+                            minOccurs="0" maxOccurs="1" form="unqualified" name="return"
+                            type="q2:FAWRYType" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://www.fawry-eg.com/ebpp/IFXMessages/" elementFormDefault="qualified"
+            targetNamespace="http://www.fawry-eg.com/ebpp/IFXMessages/">
+            <xs:complexType name="FAWRYType">
+                <xs:sequence>
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                        <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Response"
+                            type="tns:ResponseType" />
+                        <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Request"
+                            type="tns:RequestType" />
+                    </xs:choice>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="Signature" type="tns:SignatureType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ResponseType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SignonRs"
+                        type="tns:SignonRsType" />
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                        <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PresSvcRs"
+                            type="tns:PresSvcRsType" />
+                        <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PaySvcRs"
+                            type="tns:PaySvcRsType" />
+                    </xs:choice>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SignonRsType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ClientDt"
+                        type="xs:dateTime" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CustLangPref"
+                        type="xs:string" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ServerDt"
+                        type="xs:dateTime" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Language"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SignonProfile"
+                        type="tns:SignonProfileType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SignonProfileType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Sender"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Receiver"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MsgCode"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Version"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PresSvcRsType">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:SvcRsCommonType">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                                name="BillInqRs" type="tns:BillInqRsType" />
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="SvcRsCommonType">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:SvcCommonType">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Status"
+                                type="tns:StatusType" />
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="SvcCommonType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RqUID"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AsyncRqUID"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MsgRqHdr"
+                        type="tns:MsgRqHdrType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MsgRqHdrType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ChannelRqID"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="NetworkTrnInfo"
+                        type="tns:NetworkTrnInfoType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                        name="ClientTerminalSeqId" type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                        name="CustomProperties" type="tns:ArrayOfCustomPropertyType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="NetworkTrnInfoType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OriginatorCode"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TerminalId"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ArrayOfCustomPropertyType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="CustomProperty" type="tns:CustomPropertyType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="CustomPropertyType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Key"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Value"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PresSvcRqType">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:SvcCommonType">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                                name="BillInqRq" type="tns:BillInqRqType" />
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="BillInqRqType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CustId"
+                        type="tns:CustIdType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RecCtrlIn"
+                        type="tns:RecCtrlInType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SelRangeDt"
+                        type="tns:SelRangeDtType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IncOpenAmt"
+                        type="xs:boolean" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillNumber"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillingAcct"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                        name="ExtraBillingAcctKeys" type="tns:ArrayOfExtraBillingAcctKeyType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillerId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BankId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtType"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillTypeCode"
+                        type="xs:long" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ServiceType"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DeliveryMethod"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ProfileCode"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="CustIdType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OfficialId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OfficialIdType"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="RecCtrlInType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="MaxRec"
+                        type="xs:long" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Cursor"
+                        type="xs:long" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SelRangeDtType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="StartDt"
+                        type="xs:dateTime" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EndDt"
+                        type="xs:dateTime" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ArrayOfExtraBillingAcctKeyType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="ExtraBillingAcctKey" type="tns:ExtraBillingAcctKeyType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ExtraBillingAcctKeyType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Key"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Value"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PaySvcRqType">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:SvcCommonType">
+                        <xs:sequence>
+                            <xs:choice minOccurs="1" maxOccurs="1">
+                                <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                                    name="PmtNotifyRq" type="tns:PmtNotifyRqType" />
+                                <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                                    name="PmtAddRq" type="tns:PmtAddRqType" />
+                            </xs:choice>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="PmtNotifyRqType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CustId"
+                        type="tns:CustIdType" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="PmtRec"
+                        type="tns:PmtRecType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtRecType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtTransId" type="tns:PmtTransIdType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtStatus"
+                        type="tns:PmtStatusType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtInfo"
+                        type="tns:PmtInfoType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtTransIdType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtIdType"
+                        type="tns:PmtldTypeEnum" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CreatedDt"
+                        type="xs:dateTime" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="PmtldTypeEnum">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="FPTN" />
+                    <xs:enumeration value="BLRPTN" />
+                    <xs:enumeration value="BNKPTN" />
+                    <xs:enumeration value="BNKDTN" />
+                    <xs:enumeration value="FCRN" />
+                    <xs:enumeration value="OBNKPTN" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="PmtStatusType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="PmtStatusCode"
+                        type="tns:PmtStatusCodeEnum" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="EffDt"
+                        type="xs:dateTime" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="PmtStatusCodeEnum">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="PmtTransf" />
+                    <xs:enumeration value="PmtNotTransf" />
+                    <xs:enumeration value="PmtAdviced" />
+                    <xs:enumeration value="PmtNew" />
+                    <xs:enumeration value="PmtNotified" />
+                    <xs:enumeration value="PmtAdviceConfirmed" />
+                    <xs:enumeration value="PmtNotificationRejected" />
+                    <xs:enumeration value="PmtNotificationTimeout" />
+                    <xs:enumeration value="PmtReversal" />
+                    <xs:enumeration value="PmtAdviceTimeout" />
+                    <xs:enumeration value="PmtAdviceFailed" />
+                    <xs:enumeration value="PmtReversalFailed" />
+                    <xs:enumeration value="PmtAdviceConfirmFailed" />
+                    <xs:enumeration value="PmtRecon" />
+                    <xs:enumeration value="PmtNotRecon" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="PmtInfoType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillNumber"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillingAcct"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                        name="ExtraBillingAcctKeys" type="tns:ArrayOfExtraBillingAcctKeyType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillRefNumber"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="NotifyMobile"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillerId"
+                        type="xs:string" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="BillTypeCode"
+                        type="xs:long" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BankId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtType"
+                        type="tns:PmtTypeEnum" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DeliveryMethod"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CurAmt"
+                        type="tns:CurAmtType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="FeesAmt"
+                        type="tns:FeesAmtType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DepAccIdFrom"
+                        type="tns:DepAcctIdFromType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtMethod"
+                        type="xs:string" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="PrcDt"
+                        type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtRevInfo"
+                        type="tns:PmtRevInfoType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IssueDt"
+                        type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AuthInfo"
+                        type="tns:AuthInfoType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ProfileCode"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ExtraBillInfo"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="PmtTypeEnum">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="POST" />
+                    <xs:enumeration value="PREP" />
+                    <xs:enumeration value="VOCH" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="CurAmtType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="Amt"
+                        type="xs:decimal" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CurCode"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="FeesAmtType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="Amt"
+                        type="xs:decimal" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CurCode"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="DepAcctIdFromType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AcctId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AcctType"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AcctKey"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SecureAcctKey"
+                        type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AcctCur"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtRevInfoType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtTransId" type="tns:PmtTransIdType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtStatus"
+                        type="tns:PmtStatusType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AuthInfoType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AuthId"
+                        type="xs:string" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="EffDt"
+                        type="xs:dateTime" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SettlementId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MerchTxnRef"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SrvTrxNo"
+                        type="xs:long" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ReceiptNo"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RRN"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="OrderInfo"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="MerchantId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="TerminalId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AcquirerBankId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CardAcctId"
+                        type="tns:CardAcctIdType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="CardAcctIdType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="AcctId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IssuerBankId"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtAddRqType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CustId"
+                        type="tns:CustIdType" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtInfo" type="tns:PmtInfoType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="StatusType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="StatusCode"
+                        type="xs:long" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="Severity"
+                        type="tns:SeverityEnum" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="StatusDesc"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="AdditionalStatus" type="tns:AdditionalStatusType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:simpleType name="SeverityEnum">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="Error" />
+                    <xs:enumeration value="Warning" />
+                    <xs:enumeration value="Info" />
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:complexType name="AdditionalStatusType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="StatusCode"
+                        type="xs:long" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="Severity"
+                        type="tns:SeverityEnum" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="StatusDesc"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PaySvcRsType">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:SvcRsCommonType">
+                        <xs:sequence>
+                            <xs:choice minOccurs="1" maxOccurs="1">
+                                <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                                    name="PmtAddRs" type="tns:PmtAddRsType" />
+                                <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                                    name="PmtNotifyRs" type="tns:PmtNotifyRsType" />
+                            </xs:choice>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="PmtAddRsType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CustId"
+                        type="tns:CustIdType" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtInfoVal" type="tns:PmtInfoValType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtInfoValType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="status"
+                        type="tns:StatusType" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtTransId" type="tns:PmtTransIdType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtInfo"
+                        type="tns:PmtInfoType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VouchInfo"
+                        type="tns:VouchInfoType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="VouchInfoType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VouchSN"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VouchPIN"
+                        type="xs:base64Binary" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VouchExpDt"
+                        type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VouchDesc"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtNotifyRsType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CustId"
+                        type="tns:CustIdType" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtStatusRec" type="tns:PmtStatusRecType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PmtStatusRecType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PmtTransId" type="tns:PmtTransIdType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="status"
+                        type="tns:StatusType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ExtraBillInfo"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="VouchInfo"
+                        type="tns:VouchInfoType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="BillInqRsType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified" name="CustId"
+                        type="tns:CustIdType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RecCtrlOut"
+                        type="tns:RecCtrlOutType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SelRangeDt"
+                        type="tns:SelRangeDtType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IncOpenAmt"
+                        type="xs:boolean" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PmtType"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ServiceType"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DeliveryMethod"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="BillRec" type="tns:BillRecType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ProfileCode"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="RecCtrlOutType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="MatchedRec"
+                        type="xs:long" />
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="SentRec"
+                        type="xs:long" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Cursor"
+                        type="xs:long" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="BillRecType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillNumber"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillingAcct"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                        name="ExtraBillingAcctKeys" type="tns:ArrayOfExtraBillingAcctKeyType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillerId"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillTypeCode"
+                        type="xs:long" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillRefNumber"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillInfo"
+                        type="tns:BillInfoType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillStatus"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="BillInfoType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="BillCategory"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="BillSummAmt" type="tns:BillSummAmtType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="DueDt"
+                        type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ExpDt"
+                        type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IssueDt"
+                        type="xs:date" />
+                    <xs:element minOccurs="0" maxOccurs="unbounded" form="unqualified"
+                        name="PaymentRange" type="tns:PaymentRangeType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="RulesAwareness"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="ExtraBillInfo"
+                        type="xs:string" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="BillSummAmtType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified"
+                        name="BillSummAmtCode" type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CurAmt"
+                        type="tns:CurAmtType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="PaymentRangeType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Lower"
+                        type="tns:CurAmtType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="Upper"
+                        type="tns:CurAmtType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="RequestType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SignonRq"
+                        type="tns:SignonRqType" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="IsRetry"
+                        type="xs:boolean" />
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                        <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PaySvcRq"
+                            type="tns:PaySvcRqType" />
+                        <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="PresSvcRq"
+                            type="tns:PresSvcRqType" />
+                    </xs:choice>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SignonRqType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" form="unqualified" name="ClientDt"
+                        type="xs:dateTime" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="CustLangPref"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SuppressEcho"
+                        type="xs:boolean" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SignonProfile"
+                        type="tns:SignonProfileType" />
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SignatureType">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="XPath"
+                        type="xs:string" />
+                    <xs:element minOccurs="0" maxOccurs="1" form="unqualified" name="SignatureValue"
+                        type="xs:base64Binary" />
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="processRequestRequest">
+        <wsdl:part name="parameters" element="tns:processRequest" />
+    </wsdl:message>
+    <wsdl:message name="processRequestResponse">
+        <wsdl:part name="parameters" element="tns:processRequestResponse" />
+    </wsdl:message>
+    <wsdl:portType name="IEBPPSwitchBeanServiceSoap">
+        <wsdl:operation name="processRequest">
+            <wsdl:input wsam:Action="" name="processRequestRequest"
+                message="tns:processRequestRequest" />
+            <wsdl:output
+                wsam:Action="http://bussinessfacade.fawryswitch.ebpp.fawryis.com/IEBPPSwitchBeanServiceSoap/processRequestResponse"
+                name="processRequestResponse" message="tns:processRequestResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BasicHttpBinding_IEBPPSwitchBeanServiceSoap"
+        type="tns:IEBPPSwitchBeanServiceSoap">
+        <wsp:PolicyReference URI="#BasicHttpBinding_IEBPPSwitchBeanServiceSoap_policy" />
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="processRequest">
+            <soap:operation soapAction="" style="document" />
+            <wsdl:input name="processRequestRequest">
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output name="processRequestResponse">
+                <soap:body use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="EBPPSwitchBeanServiceSoap">
+        <wsdl:port name="BasicHttpBinding_IEBPPSwitchBeanServiceSoap"
+            binding="tns:BasicHttpBinding_IEBPPSwitchBeanServiceSoap">
+            <soap:address location="https://127.0.0.1:26634/fawry" />
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
